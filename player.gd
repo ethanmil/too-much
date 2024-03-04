@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 var screen_size
 
@@ -7,7 +7,6 @@ var screen_size
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
-	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -23,13 +22,6 @@ func _process(delta):
 		
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-		$AnimatedSprite2D.play()
-	else:
-		$AnimatedSprite2D.stop()
 	
 	position += velocity * delta
-	print(screen_size)
 	position = position.clamp(Vector2.ZERO, screen_size)
-	print(position)
-	
-	pass
