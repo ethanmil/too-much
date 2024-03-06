@@ -5,6 +5,8 @@ var screen_size
 @export var speed = 100
 @export var health = 100
 
+var is_invulnerable = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -29,6 +31,14 @@ func _process(delta):
 
 
 func _on_enemy_player_hit(damage):
+	if is_invulnerable:
+		return
+		
+	is_invulnerable = true
+	$invulnerability_timer.start()
 	health -= damage
 	print("player hit! Current health: ", health)
-	pass # Replace with function body.
+
+
+func _on_invulnerability_timer_timeout():
+	is_invulnerable = false

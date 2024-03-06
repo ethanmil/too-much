@@ -298,6 +298,8 @@ autoplay = "default"
 position = Vector2(0.715, 8.79)
 shape = SubResource("CapsuleShape2D_g808b")
 
+[node name="invulnerability_timer" type="Timer" parent="player"]
+
 [node name="enemy" type="CharacterBody2D" parent="."]
 script = ExtResource("4_8ptpp")
 metadata/_edit_group_ = true
@@ -312,4 +314,5 @@ autoplay = "default"
 position = Vector2(0.47, 0)
 shape = SubResource("CapsuleShape2D_625bj")
 
+[connection signal="timeout" from="player/invulnerability_timer" to="player" method="_on_invulnerability_timer_timeout"]
 [connection signal="player_hit" from="enemy" to="player" method="_on_enemy_player_hit"]
