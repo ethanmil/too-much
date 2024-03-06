@@ -3,6 +3,7 @@ extends CharacterBody2D
 var screen_size
 
 @export var speed = 100
+@export var health = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,3 +26,9 @@ func _process(delta):
 	
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
+
+
+func _on_enemy_player_hit(damage):
+	health -= damage
+	print("player hit! Current health: ", health)
+	pass # Replace with function body.

@@ -311,3 +311,5 @@ autoplay = "default"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy"]
 position = Vector2(0.47, 0)
 shape = SubResource("CapsuleShape2D_625bj")
+
+[connection signal="player_hit" from="enemy" to="player" method="_on_enemy_player_hit"]
