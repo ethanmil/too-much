@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-signal player_hit
+signal _player_hit
 
 var playerNode
 var speed = 60
@@ -16,6 +16,5 @@ func _process(delta):
 	var collided = move_and_collide(velocity)
 	if collided != null:
 		if collided.get_collider().name == "player":
-			#emit_signal(player_hit)
+			emit_signal("_player_hit")
 			print("player hit!")
-			# start invulnerability timer
