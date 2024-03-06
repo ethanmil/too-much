@@ -4,6 +4,7 @@ signal player_hit
 
 var playerNode
 var speed = 60
+var damage = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,6 +17,5 @@ func _process(delta):
 	var collided = move_and_collide(velocity)
 	if collided != null:
 		if collided.get_collider().name == "player":
-			#emit_signal(player_hit)
-			print("player hit!")
-			# start invulnerability timer
+			emit_signal(player_hit.get_name(), damage)
+			

@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://8pwq6mic5seq"]
+[gd_scene load_steps=24 format=3 uid="uid://8pwq6mic5seq"]
 
 [ext_resource type="Texture2D" uid="uid://3hs6qsee1k6e" path="res://tiles_free.png" id="1_qwmxs"]
 [ext_resource type="Script" path="res://player.gd" id="2_6sxxx"]
 [ext_resource type="Texture2D" uid="uid://4o3bdt0bgwdx" path="res://fire_mage.png" id="2_55giu"]
-[ext_resource type="PackedScene" uid="uid://bex2yo8ymu8d0" path="res://enemy.tscn" id="4_4w3d4"]
+[ext_resource type="Script" path="res://enemy.gd" id="4_8ptpp"]
+[ext_resource type="Texture2D" uid="uid://cjgkpip8uhu5w" path="res://Skeleton_Idle.png" id="5_0cllp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lwg8v"]
 texture = ExtResource("1_qwmxs")
@@ -241,6 +242,39 @@ animations = [{
 radius = 7.285
 height = 20.42
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8r1o3"]
+atlas = ExtResource("5_0cllp")
+region = Rect2(0, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aurjw"]
+atlas = ExtResource("5_0cllp")
+region = Rect2(50, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0sja"]
+atlas = ExtResource("5_0cllp")
+region = Rect2(100, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ebi2x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8r1o3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aurjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0sja")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_625bj"]
+radius = 7.0
+height = 18.33
+
 [node name="main" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -264,16 +298,21 @@ autoplay = "default"
 position = Vector2(0.715, 8.79)
 shape = SubResource("CapsuleShape2D_g808b")
 
-[node name="Enemy" parent="." instance=ExtResource("4_4w3d4")]
+[node name="invulnerability_timer" type="Timer" parent="player"]
 
-[node name="Enemy2" parent="." instance=ExtResource("4_4w3d4")]
-position = Vector2(268, 224)
+[node name="enemy" type="CharacterBody2D" parent="."]
+script = ExtResource("4_8ptpp")
+metadata/_edit_group_ = true
 
-[node name="Enemy3" parent="." instance=ExtResource("4_4w3d4")]
-position = Vector2(232, 254)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="enemy"]
+texture_filter = 1
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_ebi2x")
+autoplay = "default"
 
-[node name="Enemy4" parent="." instance=ExtResource("4_4w3d4")]
-position = Vector2(230, 186)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy"]
+position = Vector2(0.47, 0)
+shape = SubResource("CapsuleShape2D_625bj")
 
-[node name="Enemy5" parent="." instance=ExtResource("4_4w3d4")]
-position = Vector2(191, 227)
+[connection signal="timeout" from="player/invulnerability_timer" to="player" method="_on_invulnerability_timer_timeout"]
+[connection signal="player_hit" from="enemy" to="player" method="_on_enemy_player_hit"]
